@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useRegisterUserMutation } from '@/redux/user/auth.slice';
+import { useRegisterUserMutation } from '../redux/user/auth.slice';
 import cn from 'classnames';
 import { CheckCircle, Circle } from 'lucide-react';
 import Image from 'next/image';

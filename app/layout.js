@@ -4,7 +4,7 @@ import './chrome-bug.css'
 import styles from './layout.module.css';
 import cn from 'classnames';
 import { Inter } from 'next/font/google'
-import Providers from '@/redux/provider';
+import Providers from '../redux/provider';
 
 const inter = Inter({ subsets: ['latin'] })
 

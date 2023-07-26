@@ -1,13 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { saveUser } from '@/redux/user/auth.slice';
+import { setFormStep } from '../redux/ui/ui.slice';
 import cn from 'classnames';
-import { useState, useCallback } from 'react';
-import styles from './form.module.css';
-import { useRouter,useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFormStep } from '@/redux/ui/ui.slice';
+import styles from './form.module.css';
 
 export default function RegisterForm() {
   const router = useRouter()
@@ -18,8 +17,8 @@ export default function RegisterForm() {
   const {ticket_type}= useSelector(({ticket})=>ticket)
 
   const [focused, setFocused] = useState(false);
-  const [email, setEmail] = useState('admin123@event.com');
-  const [password, setPassword] = useState('12345');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [f_name, setFName] = useState('');
   const [l_name, setLName] = useState('');
   const [phone, setPhone] = useState('');

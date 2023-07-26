@@ -1,22 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useLazyGetUserTicketsQuery, useLoginUserMutation } from '@/redux/user/auth.slice';
+import { useLazyGetUserTicketsQuery, useLoginUserMutation } from '../redux/user/auth.slice';
 import cn from 'classnames';
 import { useEffect, useState, useCallback } from 'react';
 import styles from './form.module.css';
-import { setFormStep } from '@/redux/ui/ui.slice';
+import { setFormStep } from '../redux/ui/ui.slice';
 import { useDispatch } from 'react-redux';
 import LoadingDots from './loading-dots';
 import { useRouter } from 'next/navigation';
 import toast, { Toaster } from 'react-hot-toast';
 
 
+// const [email, setEmail] = useState('wwa@gmail.com');
+// const [password, setPassword] = useState('12345');
+
 export default function LoginForm() {
   const [loginUser, {data, isLoading,isSuccess,isError, error}]= useLoginUserMutation()
   const [getUserTickets]=useLazyGetUserTicketsQuery()
-  const [email, setEmail] = useState('wwa@gmail.com');
-  const [password, setPassword] = useState('12345');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [focused, setFocused] = useState(false);
   const dispatch = useDispatch()
   const router = useRouter()

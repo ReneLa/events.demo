@@ -1,5 +1,5 @@
-import ConfContainer from "@/components/conf-container";
-import Ticket from "@/components/ticket";
+import ConfContainer from "../../components/conf-container";
+import Ticket from "../../components/ticket";
 import cn from 'classnames';
 import CloseButton from "./close-button";
 
@@ -19,6 +19,7 @@ import CloseButton from "./close-button";
           </h1>
          </div>
          <Ticket/>
+         
         </ConfContainer> 
     );
   }

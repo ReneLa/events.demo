@@ -1,4 +1,4 @@
-import PayChoice from "@/components/pay-choice-container";
+import PayChoice from "../../components/pay-choice-container";
 import cn from 'classnames';
 import styleUtils from "../../components/utils.module.css";
 

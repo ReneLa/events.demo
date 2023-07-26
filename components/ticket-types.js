@@ -2,11 +2,11 @@ import cn from 'classnames';
 import Image from 'next/image';
 import styles from './ticket-types.module.css';
 import styleUtils from './utils.module.css';
-import { useGetTicketsQuery } from '@/redux/event/event.slice';
+import { useGetTicketsQuery } from '../redux/event/event.slice';
 import { useEffect,useState } from 'react';
 import {motion} from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux';
-import { setFormStep } from '@/redux/ui/ui.slice';
+import { setFormStep } from '../redux/ui/ui.slice';
 import { saveTicket } from '../redux/ticket/ticket.slice';
 
 function TicketType({tickets}) {

@@ -1,11 +1,11 @@
 "use client"
 
-import ConfContainer from '@/components/conf-container';
-import Form from '@/components/form';
-import Hero from '@/components/hero';
-import TicketTypeGrid from '@/components/ticket-types';
-import { META_DESCRIPTION } from '@/lib/constants';
-import { useGetEventQuery } from '@/redux/event/event.slice';
+import ConfContainer from '../components/conf-container';
+import Form from '../components/form';
+import Hero from '../components/hero';
+import TicketTypeGrid from '../components/ticket-types';
+import { META_DESCRIPTION } from '../lib/constants';
+import { useGetEventQuery } from '../redux/event/event.slice';
 import { AnimatePresence } from "framer-motion";
 import { useSelector } from 'react-redux';
 

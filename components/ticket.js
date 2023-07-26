@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import cn from 'classnames';
@@ -12,7 +13,7 @@ import styles from './ticket.module.css';
 import styleUtils from './utils.module.css';
 
 
-export default function Ticket({ username, name, ticketNumber, sharePage }) {
+export default function Ticket({ username, sharePage }) {
   const router = useRouter()
   const {data,isError}= useGetUserTicketsQuery()
   const ticketRef = useRef(null);
@@ -72,9 +73,6 @@ export default function Ticket({ username, name, ticketNumber, sharePage }) {
           >
             <TicketVisual
               username={username}
-              name={name}
-              ticketNumber={ticketNumber}
-              ticketGenerationState={ticketGenerationState}
             />
           </div>
                 <div>
