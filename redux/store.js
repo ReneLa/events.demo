@@ -16,7 +16,7 @@ export const store = configureStore({
     ticket:ticketReducer,
   },
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(apiSlice.middleware),
+    getDefaultMiddleware().concat(apiSlice.middleware).concat(logger),
   devTools: process.env.NODE_ENV !== 'production',
 });
 //.concat(logger)

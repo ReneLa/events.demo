@@ -8,7 +8,7 @@ export default function CloseButton() {
     return (
         <div className="relative w-full">
             <button
-                onClick={() => router.replace('/')}
+                onClick={() => router.back()}
                 className="absolute top-0 right-0 w-11 h-11 bg-red-400 rounded-full flex flex-col items-center justify-center hover:bg-black">
                 <X size={24} />
             </button>

@@ -1,17 +1,16 @@
-import {createSlice} from '@reduxjs/toolkit';
-
+import { createSlice } from "@reduxjs/toolkit";
 
 const uiSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState: {
-    formStep:0
+    formStep: 1,
   },
   reducers: {
-    setFormStep: (state, {payload}) => {
+    setFormStep: (state, { payload }) => {
       state.formStep = payload;
     },
   },
 });
 
-export const {setFormStep} =uiSlice.actions;
+export const { setFormStep } = uiSlice.actions;
 export default uiSlice.reducer;
