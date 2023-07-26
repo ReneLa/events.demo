@@ -45,11 +45,11 @@ export default function RegisterForm() {
           total_amount:ticket_type.price,
           first_name:f_name, 
           last_name:l_name, 
-          email,  address, password};
+          phone,email, address, password};
           router.push('/payment' + '?' + createQueryString('user', JSON.stringify(user)))
       // dispatch(setFormStep(0));
     },
-    [email,l_name,email, address, password ] 
+    [email,l_name,email,phone, address, password ] 
   );
 
   return  (

@@ -25,7 +25,9 @@ export default function PayChoice({}) {
   useEffect(() => {
     if(isSuccess){
       if(pay_method===2){
-        window.location.href = data.url;
+        // console.log('data',data)
+        // window.location.assign(data.url)
+        window.location.href =`${data.url}`;
       }
       if(pay_method===1){
         toast.success(
@@ -84,7 +86,7 @@ useEffect(() => {
     data.append("password", userData.password);
     data.append("last_name", userData.last_name);
     data.append("first_name", userData.first_name);
-    data.append("phone", phoneNumber);
+    data.append("phone", phoneNumber.length>0 ?phoneNumber :userData.phone );
     data.append("payment_type", JSON.stringify(pay_method));
     data.append("summit_id", userData.summit_id);
     data.append("total_amount",userData.total_amount);

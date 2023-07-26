@@ -49,7 +49,7 @@ export default function LoginForm() {
       data.append("password", password);
       await loginUser(data).unwrap()
     },
-    [loginUser] 
+    [loginUser, email, password] 
   );
  
   return  (
