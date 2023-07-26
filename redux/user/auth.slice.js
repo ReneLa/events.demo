@@ -5,6 +5,7 @@ const slice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
+    token:null,
     newUser:{},
     ticket:{},
     new_register:null,
@@ -44,7 +45,10 @@ const slice = createSlice({
     builder.addMatcher(
       apiSlice.endpoints.getPayStatus.matchFulfilled,
       (state, { payload }) => {
-       //
+        if(payload.payment_status==='SUCCESSFUL'){
+          console.log('payload', payload)
+          state.token = payload.token;
+        }
       }
     )
   },
@@ -79,7 +83,9 @@ export const userSlice = apiSlice.injectEndpoints({
           url: `/check/${code}/mtn`,
           method: 'GET',
         }),
-        // providesTags:['ticket']
+        transformResponse:response=>{
+          return response.data;
+        }
       }),
     }),
   });

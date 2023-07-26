@@ -22,7 +22,6 @@ export default function PayChoice({}) {
   const [pay_method, setPayMethod]= useState(1)
   const [phoneNumber, setPhoneNumber] = useState('');
 
-
   useEffect(() => {
     if(isSuccess){
       if(pay_method===2){
@@ -30,20 +29,39 @@ export default function PayChoice({}) {
       }
       if(pay_method===1){
         toast.success(
-          'Proceed to your phone and approve MoMo payment. To approve enter *182*1*7#'
+          'Awaiting approval to your phone MoMo payment. To approve enter *182*1*7#'
         );
-        // console.log(data)
         getPayStatus(data.data.payment_code)
       }
     }
 },[isSuccess])
 
 useEffect(()=>{
-  if(statusResult.data){
-    console.log('status',statusResult.data )
+  let interval;
+  if(statusResult?.data && statusResult?.data.payment_status==='PENDING'){
+     interval = setInterval(() => {
+      getPayStatus(statusResult.data.payment_code)
+      console.log(statusResult.data.payment_code, 'on refetching')
+    }, 15000);
   }
 
-},[statusResult])
+  if(statusResult?.data && statusResult?.data.payment_status==='SUCCESSFUL'){
+    toast.success(
+      'Payment approved'
+    );
+    router.replace('/dashboard');
+  }
+
+  if(statusResult?.data && statusResult?.data.payment_status==='FAILED'){
+    toast.error(
+      'Payment request timeout'
+    );
+    router.replace('/');
+  }
+
+  return () => clearInterval(interval);
+
+},[statusResult.data])
 
 useEffect(() => {
   if(isError && error){
@@ -77,7 +95,6 @@ useEffect(() => {
   },
   [registerUser,phoneNumber, pay_method] 
 );
-
 
   return ( 
   <div className='relative flex flex-col w-full'>
@@ -136,12 +153,13 @@ useEffect(() => {
           Back
     </button>
     <button
+    disabled={isLoading || statusResult.isLoading}
       onClick={onSubmit}
       className={cn(
           `w-1/3 h-12  bg-[#702ec2] rounded-md border-2 border-solid border-[#702ec2] cursor-pointer text-base items-center justify-center inline-flex font-medium outline-none tracking-tight transition-colors duration-200 ease-in-out hover:bg-[#19191C]`
         )}
         >
-          {isLoading ? <LoadingDots size={4} /> : <>Proceed</>} 
+          {isLoading || statusResult.isLoading ? <LoadingDots size={4} /> : <>Proceed</>} 
         </button>
     </div>
     <Toaster
