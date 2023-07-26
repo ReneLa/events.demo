@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useRegisterUserMutation } from '../redux/user/auth.slice';
+import { useLazyGetPayStatusQuery, useRegisterUserMutation } from '../redux/user/auth.slice';
 import cn from 'classnames';
 import { CheckCircle, Circle } from 'lucide-react';
 import Image from 'next/image';
@@ -18,7 +18,7 @@ export default function PayChoice({}) {
   const searchParams = useSearchParams();
   const user = searchParams.get('user');
   const [registerUser, {data, isSuccess,isError,error, isLoading}]= useRegisterUserMutation()
-
+  const [getPayStatus, statusResult]= useLazyGetPayStatusQuery()
   const [pay_method, setPayMethod]= useState(1)
   const [phoneNumber, setPhoneNumber] = useState('');
 
@@ -29,12 +29,21 @@ export default function PayChoice({}) {
         window.location.href = data.url;
       }
       if(pay_method===1){
-        toast.loading(
+        toast.success(
           'Proceed to your phone and approve MoMo payment. To approve enter *182*1*7#'
         );
+        // console.log(data)
+        getPayStatus(data.data.payment_code)
       }
     }
 },[isSuccess])
+
+useEffect(()=>{
+  if(statusResult.data){
+    console.log('status',statusResult.data )
+  }
+
+},[statusResult])
 
 useEffect(() => {
   if(isError && error){
@@ -51,7 +60,7 @@ useEffect(() => {
   async (e) => {
     e.preventDefault()
     const userData= JSON.parse(user)
-    console.log(user, userData)
+    console.log(user, userData,phoneNumber)
     var data = new FormData();
     data.append("email", userData.email);
     data.append("password", userData.password);
@@ -66,7 +75,7 @@ useEffect(() => {
 
     await registerUser(data).unwrap()
   },
-  [registerUser, pay_method] 
+  [registerUser,phoneNumber, pay_method] 
 );
 
 

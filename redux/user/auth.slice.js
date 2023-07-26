@@ -6,8 +6,9 @@ const slice = createSlice({
   initialState: {
     user: null,
     newUser:{},
-    ticket:{}
-    // registered:null 
+    ticket:{},
+    new_register:null,
+    pay_status:null
   },
   reducers: {
     setCredentials: (state, {payload}) => {
@@ -28,7 +29,8 @@ const slice = createSlice({
     builder.addMatcher(
       apiSlice.endpoints.registerUser.matchFulfilled,
       (state, { payload }) => {
-        state.registered = payload;
+        state.new_register=payload.data;
+        state.pay_status=payload.data.payment_status
       }
     ),
     builder.addMatcher(
@@ -37,6 +39,12 @@ const slice = createSlice({
         if(payload.data.length>0){
           state.ticket = payload.data[0];
         }
+      }
+    ),
+    builder.addMatcher(
+      apiSlice.endpoints.getPayStatus.matchFulfilled,
+      (state, { payload }) => {
+       //
       }
     )
   },
@@ -66,6 +74,13 @@ export const userSlice = apiSlice.injectEndpoints({
         }),
         providesTags:['ticket']
       }),
+      getPayStatus: builder.query({
+        query: (code) => ({
+          url: `/check/${code}/mtn`,
+          method: 'GET',
+        }),
+        // providesTags:['ticket']
+      }),
     }),
   });
   
@@ -73,7 +88,8 @@ export const userSlice = apiSlice.injectEndpoints({
     useLoginUserMutation,
     useRegisterUserMutation, 
    useLazyGetUserTicketsQuery, 
-   useGetUserTicketsQuery
+   useGetUserTicketsQuery, 
+   useLazyGetPayStatusQuery
   } = userSlice;
 
 
