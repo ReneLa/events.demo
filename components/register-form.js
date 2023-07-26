@@ -45,12 +45,11 @@ export default function RegisterForm() {
           total_amount:ticket_type.price,
           first_name:f_name, 
           last_name:l_name, 
-          phone,
           email,  address, password};
-          await router.push('/payment' + '?' + createQueryString('user', JSON.stringify(user)))
+          router.push('/payment' + '?' + createQueryString('user', JSON.stringify(user)))
       // dispatch(setFormStep(0));
     },
-    [email,l_name,email, address,phone, password ] 
+    [email,l_name,email, address, password ] 
   );
 
   return  (
