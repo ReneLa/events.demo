@@ -41,7 +41,7 @@ useEffect(()=>{
   if(statusResult?.data && statusResult?.data.payment_status==='PENDING'){
      interval = setInterval(() => {
       getPayStatus(statusResult.data.payment_code)
-      console.log(statusResult.data.payment_code, 'on refetching')
+      // console.log(statusResult.data.payment_code, 'on refetching')
     }, 15000);
   }
 
