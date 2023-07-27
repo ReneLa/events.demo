@@ -14,8 +14,8 @@ import LoadingDots from "./loading-dots";
 export default function LoginForm() {
   const [loginUser, { data, isLoading, isSuccess, isError, error }] =
     useLoginUserMutation();
-  const [email, setEmail] = useState("wwa@gmail.com");
-  const [password, setPassword] = useState("12345");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [focused, setFocused] = useState(false);
 
   useEffect(() => {
