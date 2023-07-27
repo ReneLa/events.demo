@@ -1,18 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import {
-  useLazyGetUserTicketsQuery,
-  useLoginUserMutation,
-} from "../redux/user/auth.slice";
 import cn from "classnames";
-import { useEffect, useState, useCallback } from "react";
-import styles from "./form.module.css";
-import { setFormStep } from "../redux/ui/ui.slice";
-import { useDispatch } from "react-redux";
-import LoadingDots from "./loading-dots";
-import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { useLoginUserMutation } from "../redux/user/auth.slice";
+import styles from "./form.module.css";
+import LoadingDots from "./loading-dots";
 
 // const [email, setEmail] = useState('wwa@gmail.com');
 // const [password, setPassword] = useState('12345');
@@ -20,23 +14,13 @@ import toast, { Toaster } from "react-hot-toast";
 export default function LoginForm() {
   const [loginUser, { data, isLoading, isSuccess, isError, error }] =
     useLoginUserMutation();
-  const [getUserTickets] = useLazyGetUserTicketsQuery();
   const [email, setEmail] = useState("wwa@gmail.com");
   const [password, setPassword] = useState("12345");
   const [focused, setFocused] = useState(false);
-  const dispatch = useDispatch();
-  const router = useRouter();
-
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     router.replace("/dashboard");
-  //   }
-  // }, [isSuccess]);
 
   useEffect(() => {
     if (isError && error) {
       const message = error?.data.message;
-      console.log(error);
       toast.error(`Sorry, try again. ${message}`);
     }
   }, [error, isError]);

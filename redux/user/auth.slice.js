@@ -4,19 +4,17 @@ import { apiSlice } from "../api/api.slice";
 const slice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
     token: null,
-    newUser: {},
     ticket: {},
-    new_register: null,
     pay_status: null,
+    attendee_details: null,
   },
   reducers: {
     setCredentials: (state, { payload }) => {
       state.token = payload;
     },
-    saveUser: (state, { payload }) => {
-      state.newUser = payload;
+    saveAttendee: (state, { payload }) => {
+      state.attendee_details = payload;
     },
   },
   extraReducers: (builder) => {
@@ -29,8 +27,7 @@ const slice = createSlice({
       builder.addMatcher(
         apiSlice.endpoints.registerUser.matchFulfilled,
         (state, { payload }) => {
-          state.new_register = payload.data;
-          state.pay_status = payload.data.payment_status;
+          state.token = payload.token;
         }
       ),
       builder.addMatcher(
@@ -44,9 +41,14 @@ const slice = createSlice({
       builder.addMatcher(
         apiSlice.endpoints.getPayStatus.matchFulfilled,
         (state, { payload }) => {
+          state.pay_status = payload.payment_status;
+        }
+      ),
+      builder.addMatcher(
+        apiSlice.endpoints.buyTicket.matchFulfilled,
+        (state, { payload }) => {
           if (payload.payment_status === "SUCCESSFUL") {
-            console.log("payload", payload);
-            state.token = payload.token;
+            state.pay_status = payload.payment_status;
           }
         }
       );
@@ -69,6 +71,9 @@ export const userSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: user,
       }),
+      transformResponse: (response) => {
+        return response.data;
+      },
     }),
     getUserTickets: builder.query({
       query: () => ({
@@ -86,6 +91,16 @@ export const userSlice = apiSlice.injectEndpoints({
         return response.data;
       },
     }),
+    buyTicket: builder.mutation({
+      query: (info) => ({
+        url: "/make-payment",
+        method: "POST",
+        body: info,
+      }),
+      transformResponse: (response) => {
+        return response.data;
+      },
+    }),
   }),
 });
 
@@ -95,8 +110,9 @@ export const {
   useLazyGetUserTicketsQuery,
   useGetUserTicketsQuery,
   useLazyGetPayStatusQuery,
+  useBuyTicketMutation,
 } = userSlice;
 
-export const { setCredentials, saveUser } = slice.actions;
+export const { setCredentials, saveAttendee } = slice.actions;
 
 export default slice.reducer;

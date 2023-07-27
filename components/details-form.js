@@ -40,7 +40,6 @@ export default function DetailsForm() {
       const user = {
         summit_id: summit.id,
         ticket_id: ticket_type.id,
-        total_amount: ticket_type.price,
         first_name: f_name,
         last_name: l_name,
         phone,
@@ -156,7 +155,7 @@ export default function DetailsForm() {
             className="w-1/3 h-10  bg-[#702ec2] rounded-md border-2 border-solid border-[#702ec2] cursor-pointer text-base items-center justify-center inline-flex font-medium outline-none tracking-tight transition-colors duration-200 ease-in-out hover:bg-[#19191C]"
             onClick={onSubmit}
           >
-            Register
+            Confirm
           </button>
         </div>
       </div>

@@ -29,7 +29,7 @@ export default function MenuButton() {
             onClick={() => router.push("/dashboard")}
             className="group cursor-pointer text-[15px] font-medium leading-none text-mauve11 rounded-[3px] flex items-center h-9 px-2 relative  select-none outline-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:bg-violet9 data-[highlighted]:text-white"
           >
-            My tickets
+            My ticket
           </DropdownMenu.Item>
           <DropdownMenu.Item
             onClick={() => dispatch(setCredentials(null))}

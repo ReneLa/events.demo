@@ -1,42 +1,75 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import {
-  useLazyGetPayStatusQuery,
-  useRegisterUserMutation,
-} from "../redux/user/auth.slice";
 import cn from "classnames";
 import { CheckCircle, Circle } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  saveAttendee,
+  useBuyTicketMutation,
+  useLazyGetPayStatusQuery,
+} from "../redux/user/auth.slice";
 import PayModal from "./PayModal";
 import LoadingDots from "./loading-dots";
 import choiceStyles from "./pay-choice-container.module.css";
 
 export default function PayChoice({}) {
   const router = useRouter();
+  const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const user = searchParams.get("user");
-  const [registerUser, { data, isSuccess, isError, error, isLoading }] =
-    useRegisterUserMutation();
+  const cardStatus = searchParams.get("data");
+
+  const { pay_status, attendee_details } = useSelector(({ auth }) => auth);
+  const [buyTicket, { data, isSuccess, isError, error, isLoading }] =
+    useBuyTicketMutation();
   const [getPayStatus, statusResult] = useLazyGetPayStatusQuery();
   const [pay_method, setPayMethod] = useState(1);
   const [phoneNumber, setPhoneNumber] = useState("");
 
   useEffect(() => {
+    dispatch(saveAttendee(JSON.parse(user)));
+  }, []);
+
+  useEffect(() => {
+    if (cardStatus) {
+      if (cardStatus.message === "cancelled") {
+        console.log("pay cancelled on card");
+        toast.error("Card payment cancelled", {
+          id: "card_pay",
+        });
+      }
+      if (cardStatus.message === "FAILED") {
+        // console.log("pay payment");
+        toast.error("Payment failed. Try with a different Card", {
+          id: "card_pay",
+        });
+      }
+    }
+  }, [cardStatus]);
+
+  useEffect(() => {
+    if (pay_status === "PENDING") {
+      toast.loading("Awaiting payment on MoMo", {
+        id: "pay_status",
+      });
+    }
+  }, [pay_status]);
+
+  useEffect(() => {
     if (isSuccess) {
       if (pay_method === 2) {
-        // console.log('data',data)
-        // window.location.assign(data.url)
         window.location.href = `${data.url}`;
       }
       if (pay_method === 1) {
         toast.success(
           "Awaiting approval to your phone MoMo payment. To approve enter *182*1*7#"
         );
-        getPayStatus(data.data.payment_code);
+        getPayStatus(data.payment_code);
       }
     }
   }, [isSuccess]);
@@ -46,7 +79,6 @@ export default function PayChoice({}) {
     if (statusResult?.data && statusResult?.data.payment_status === "PENDING") {
       interval = setInterval(() => {
         getPayStatus(statusResult.data.payment_code);
-        // console.log(statusResult.data.payment_code, 'on refetching')
       }, 15000);
     }
 
@@ -60,16 +92,14 @@ export default function PayChoice({}) {
 
     if (statusResult?.data && statusResult?.data.payment_status === "FAILED") {
       toast.error("Payment request timeout");
-      router.replace("/");
+      router.back();
     }
-
     return () => clearInterval(interval);
-  }, [statusResult.data]);
+  }, [statusResult.data, statusResult.isError, statusResult.error]);
 
   useEffect(() => {
     if (isError && error) {
       const message = error?.data.message;
-      console.log(error);
       toast.error(`${message}`);
     }
   }, [error, isError]);
@@ -77,10 +107,8 @@ export default function PayChoice({}) {
   const onSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      const userData = JSON.parse(user);
+      const userData = cardStatus ? attendee_details : JSON.parse(user);
       var data = new FormData();
-      data.append("email", userData.email);
-      data.append("password", userData.password);
       data.append("last_name", userData.last_name);
       data.append("first_name", userData.first_name);
       data.append(
@@ -89,13 +117,12 @@ export default function PayChoice({}) {
       );
       data.append("payment_type", JSON.stringify(pay_method));
       data.append("summit_id", userData.summit_id);
-      data.append("total_amount", userData.total_amount);
       data.append("ticket_id", userData.ticket_id);
       data.append("address", userData.address);
-
-      await registerUser(data).unwrap();
+      console.log(userData);
+      await buyTicket(data).unwrap();
     },
-    [registerUser, phoneNumber, pay_method]
+    [buyTicket, phoneNumber, pay_method]
   );
 
   return (
