@@ -56,13 +56,14 @@
   
   .ticket-number-wrapper {
     position: absolute;
-    bottom: 55px;
-    right: 0;
+    bottom: 40px;
+    right: 40%;
   }
   
   @media (min-width: 768px) {
     .ticket-number-wrapper {
-      bottom: 0;
+      bottom: 40%;
+      right:35px
     }
   }
   

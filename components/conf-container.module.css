@@ -3,6 +3,7 @@
   padding: 0 var(--space-4x);
    min-height: 100vh;
    width: 100%;
+   position: relative;
   }
   
   @media (min-width: 768px) {
