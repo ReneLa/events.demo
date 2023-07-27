@@ -53,6 +53,11 @@ export default function DetailsForm() {
     [f_name, l_name, phone, address]
   );
 
+  let disabled =
+    f_name.length === 0 ||
+    l_name.length === 0 ||
+    phone.length === 0 ||
+    address.length === 0;
   return (
     <div className="flex flex-row w-full justify-center">
       <div className="relative md:w-1/2 self-center px-5 my-10">
@@ -154,6 +159,7 @@ export default function DetailsForm() {
           <button
             className="w-1/3 h-10  bg-[#702ec2] rounded-md border-2 border-solid border-[#702ec2] cursor-pointer text-base items-center justify-center inline-flex font-medium outline-none tracking-tight transition-colors duration-200 ease-in-out hover:bg-[#19191C]"
             onClick={onSubmit}
+            disabled={disabled}
           >
             Confirm
           </button>

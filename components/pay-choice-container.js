@@ -32,19 +32,12 @@ export default function PayChoice({}) {
   const [phoneNumber, setPhoneNumber] = useState("");
 
   useEffect(() => {
-    dispatch(saveAttendee(JSON.parse(user)));
-  }, []);
-
-  useEffect(() => {
     if (cardStatus) {
-      if (cardStatus.message === "cancelled") {
-        console.log("pay cancelled on card");
-        toast.error("Card payment cancelled", {
-          id: "card_pay",
-        });
-      }
-      if (cardStatus.message === "FAILED") {
+      const newStatus = JSON.parse(newStatus);
+      if (newStatus.message === "FAILED") {
         // console.log("pay payment");
+        dispatch(setCredentials(newStatus.data.token));
+
         toast.error("Payment failed. Try with a different Card", {
           id: "card_pay",
         });
@@ -189,14 +182,6 @@ export default function PayChoice({}) {
       )}
 
       <div className="flex flex-row items-center justify-evenly mt-10">
-        <button
-          onClick={() => router.back()}
-          className={cn(
-            `w-1/3 h-12 mr-2 bg-[#131316] rounded-md border-2 border-solid border-[#702ec2] cursor-pointer text-base items-center justify-center inline-flex font-medium outline-none tracking-tight transition-colors duration-200 ease-in-out hover:bg-[#19191C]`
-          )}
-        >
-          Back
-        </button>
         <button
           disabled={isLoading || statusResult.isLoading}
           onClick={onSubmit}
