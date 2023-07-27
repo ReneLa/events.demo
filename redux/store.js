@@ -1,10 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-// import logger from "redux-logger";
+import logger from "redux-logger";
 import { apiSlice } from "./api/api.slice";
 import authReducer from "./user/auth.slice";
 import uiReducer from "./ui/ui.slice";
 import eventReducer from "./event/event.slice";
 import ticketReducer from "./ticket/ticket.slice";
+
 // import { persistReducer, persistStore } from "redux-persist";
 // import { combineReducers } from "redux";
 // import storage from "redux-persist/lib/storage";
@@ -36,8 +37,7 @@ export const store = configureStore({
     ticket: ticketReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware),
-  // .concat(logger)
+    getDefaultMiddleware().concat(apiSlice.middleware).concat(logger),
   // .concat(thunk),
   devTools: process.env.NODE_ENV !== "production",
 });

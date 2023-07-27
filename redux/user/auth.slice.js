@@ -63,7 +63,7 @@ export const userSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: user,
       }),
-      invalidatesTags: ["ticket"],
+      // invalidatesTags: ["ticket"],
     }),
     registerUser: builder.mutation({
       query: (user) => ({
@@ -80,7 +80,7 @@ export const userSlice = apiSlice.injectEndpoints({
         url: "/list-transactions",
         method: "GET",
       }),
-      providesTags: ["ticket"],
+      // providesTags: ["ticket"],
     }),
     getPayStatus: builder.query({
       query: (code) => ({

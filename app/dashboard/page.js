@@ -1,7 +1,7 @@
-import ConfContainer from "../../components/conf-container";
-import Ticket from "../../components/ticket";
 import cn from "classnames";
 import CloseButton from "../../components/close-button";
+import ConfContainer from "../../components/conf-container";
+import Ticket from "../../components/ticket";
 
 export const metadata = {
   title: "Dashboard",
