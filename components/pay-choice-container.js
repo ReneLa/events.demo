@@ -86,13 +86,14 @@ export default function PayChoice({}) {
       statusResult?.data &&
       statusResult?.data.payment_status === "SUCCESSFUL"
     ) {
+      toast.dismiss("pay_status");
       toast.success("Payment approved");
       router.replace("/dashboard");
     }
 
     if (statusResult?.data && statusResult?.data.payment_status === "FAILED") {
+      toast.dismiss("pay_status");
       toast.error("Payment request timeout");
-      router.back();
     }
     return () => clearInterval(interval);
   }, [statusResult.data, statusResult.isError, statusResult.error]);
