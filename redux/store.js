@@ -6,43 +6,45 @@ import uiReducer from "./ui/ui.slice";
 import eventReducer from "./event/event.slice";
 import ticketReducer from "./ticket/ticket.slice";
 
-// import { persistReducer, persistStore } from "redux-persist";
-// import { combineReducers } from "redux";
-// import storage from "redux-persist/lib/storage";
-// import thunk from "redux-thunk";
+import { persistReducer, persistStore, createTransform } from "redux-persist";
+import { combineReducers } from "redux";
+import storage from "redux-persist/lib/storage";
+import thunk from "redux-thunk";
 // import {setupListeners} from '@reduxjs/toolkit/query';
 
-// const reducers = combineReducers({
-//   [apiSlice.reducerPath]: apiSlice.reducer,
-//   auth: authReducer,
-//   ui: uiReducer,
-//   event: eventReducer,
-//   ticket: ticketReducer,
-// });
+const tokenTransform = createTransform(
+  (inboundState, key) => ({ token: inboundState.token }),
+  (outboundState, key) => ({ token: outboundState.token })
+);
 
-// const persistConfig = {
-//   key: "root",
-//   storage,
-//   // whitelist: ["token"],
-// };
+const reducers = combineReducers({
+  [apiSlice.reducerPath]: apiSlice.reducer,
+  auth: authReducer,
+  ui: uiReducer,
+  event: eventReducer,
+  ticket: ticketReducer,
+});
 
-// const persistedReducer = persistReducer(persistConfig, reducers);
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["auth"],
+  transforms: [tokenTransform],
+};
+
+const persistedReducer = persistReducer(persistConfig, reducers);
 
 export const store = configureStore({
-  reducer: {
-    [apiSlice.reducerPath]: apiSlice.reducer,
-    auth: authReducer,
-    ui: uiReducer,
-    event: eventReducer,
-    ticket: ticketReducer,
-  },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware).concat(logger),
+    getDefaultMiddleware().concat(apiSlice.middleware),
+  // .concat(logger)
   // .concat(thunk),
   devTools: process.env.NODE_ENV !== "production",
 });
+
 //.concat(logger)
 // enable listener behavior for the store
 // setupListeners(store.dispatch);
 
-// export const persistor = persistStore(store);
+export const persistor = persistStore(store);

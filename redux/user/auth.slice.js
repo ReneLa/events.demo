@@ -21,7 +21,7 @@ const slice = createSlice({
     builder.addMatcher(
       apiSlice.endpoints.loginUser.matchFulfilled,
       (state, { payload }) => {
-        state.token = payload.data;
+        state.token = payload;
       }
     ),
       builder.addMatcher(
@@ -63,7 +63,9 @@ export const userSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: user,
       }),
-      // invalidatesTags: ["ticket"],
+      transformResponse: (response) => {
+        return response.data;
+      },
     }),
     registerUser: builder.mutation({
       query: (user) => ({
@@ -71,7 +73,7 @@ export const userSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: user,
       }),
-      transformResponse: (response) => {
+      transformResponse: () => {
         return response.data;
       },
     }),
