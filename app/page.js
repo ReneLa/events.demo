@@ -3,12 +3,13 @@
 import { AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
 import ConfContainer from "../components/conf-container";
+import DetailsFrom from "../components/details-form";
 import Form from "../components/form";
 import Hero from "../components/hero";
 import MenuButton from "../components/menu-button";
 import TicketTypeGrid from "../components/ticket-types";
 import { useGetEventQuery } from "../redux/event/event.slice";
-import DetailsFrom from "../components/details-form";
+
 export default function Home() {
   const { data } = useGetEventQuery();
   const { token } = useSelector(({ auth }) => auth);

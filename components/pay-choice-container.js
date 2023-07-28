@@ -35,9 +35,7 @@ export default function PayChoice({}) {
     if (cardStatus) {
       const newStatus = JSON.parse(newStatus);
       if (newStatus.message === "FAILED") {
-        // console.log("pay payment");
-        dispatch(setCredentials(newStatus.data.token));
-
+        dispatch(saveAttendee(newStatus.data));
         toast.error("Payment failed. Try with a different Card", {
           id: "card_pay",
         });
@@ -113,7 +111,7 @@ export default function PayChoice({}) {
       data.append("summit_id", userData.summit_id);
       data.append("ticket_id", userData.ticket_id);
       data.append("address", userData.address);
-      console.log(userData);
+      // console.log(userData);
       await buyTicket(data).unwrap();
     },
     [buyTicket, phoneNumber, pay_method]
@@ -196,7 +194,7 @@ export default function PayChoice({}) {
           )}
         </button>
       </div>
-      <Toaster
+      {/* <Toaster
         position="bottom-right"
         toastOptions={{
           style: {
@@ -204,7 +202,7 @@ export default function PayChoice({}) {
             color: "var(--accents-1)",
           },
         }}
-      />
+      /> */}
     </div>
   );
 }

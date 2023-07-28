@@ -14,4 +14,5 @@ export const apiSlice = createApi({
   }),
   tagTypes: ['ticket'],
   endpoints: builder => ({}),
+  util:{}
 });

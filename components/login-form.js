@@ -3,13 +3,10 @@
 
 import cn from "classnames";
 import { useCallback, useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useLoginUserMutation } from "../redux/user/auth.slice";
 import styles from "./form.module.css";
 import LoadingDots from "./loading-dots";
-
-// const [email, setEmail] = useState('wwa@gmail.com');
-// const [password, setPassword] = useState('12345');
 
 export default function LoginForm() {
   const [loginUser, { data, isLoading, isSuccess, isError, error }] =
@@ -19,11 +16,18 @@ export default function LoginForm() {
   const [focused, setFocused] = useState(false);
 
   useEffect(() => {
+    // if (data && isSuccess) {
+    //   toast.success(`Login success`, {
+    //     id: "login",
+    //   });
+    // }
     if (isError && error) {
       const message = error?.data.message;
-      toast.error(`Sorry, try again. ${message}`);
+      toast.error(`Sorry, try again. ${message}`, {
+        id: "login",
+      });
     }
-  }, [error, isError]);
+  }, [data, isSuccess, error, isError]);
 
   const onSubmit = useCallback(
     async (e) => {
@@ -35,7 +39,6 @@ export default function LoginForm() {
     },
     [loginUser, email, password]
   );
-
   return (
     <div className="px-5 my-10">
       <label
@@ -87,15 +90,6 @@ export default function LoginForm() {
           {isLoading ? <LoadingDots size={4} /> : <>Login</>}
         </button>
       </div>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          style: {
-            background: "var(--accents-7)",
-            color: "var(--accents-1)",
-          },
-        }}
-      />
     </div>
   );
 }
