@@ -15,6 +15,8 @@ export default function Home() {
   const { token } = useSelector(({ auth }) => auth);
   const { formStep } = useSelector(({ ui }) => ui);
 
+  // console.log(token);
+
   if (data) {
     return (
       <ConfContainer>
