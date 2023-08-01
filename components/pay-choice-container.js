@@ -4,7 +4,7 @@
 import cn from "classnames";
 import { CheckCircle, Circle } from "lucide-react";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,8 +21,17 @@ export default function PayChoice({}) {
   const router = useRouter();
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
+
   const user = searchParams.get("user");
   const cardStatus = searchParams.get("req");
+  const status = searchParams.get("status");
+  const message = searchParams.get("message");
+  const summit_id = searchParams.get("summit_id");
+  const first_name = searchParams.get("first_name");
+  const last_name = searchParams.get("last_name");
+  const ticket_id = searchParams.get("ticket_id");
+  const tel = searchParams.get("phone");
+  const address = searchParams.get("address");
 
   const { pay_status, attendee_details } = useSelector(({ auth }) => auth);
   const [buyTicket, { data, isSuccess, isError, error, isLoading }] =
@@ -31,32 +40,17 @@ export default function PayChoice({}) {
   const [pay_method, setPayMethod] = useState(1);
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  const usesUniqueIds = searchParams.get("data[usesUniqueIds]");
-  const increments = searchParams.get("data[incrementing]");
-  const preventsLazyLoading = searchParams.get("data[preventsLazyLoading]");
-  const exists = searchParams.get("data[exists]");
-  const wasRecentlyCreated = searchParams.get("data[wasRecentlyCreated]");
-  const timestamps = searchParams.get("data[timestamps]");
+  useEffect(() => {
+    if (status && status === "400") {
+      // dispatch(saveAttendee(newStatu.data));
+      setPayMethod(2);
+      toast.error("Payment failed. Try with a different Card", {
+        id: "pay_fail",
+      });
 
-  console.log(usesUniqueIds);
-  console.log(increments);
-  console.log(preventsLazyLoading);
-  console.log(exists);
-  console.log(wasRecentlyCreated);
-  console.log(timestamps);
-
-  // useEffect(() => {
-  //   if (cardStatus) {
-  //     const newStatus = JSON.parse(newStatus);
-
-  //     if (newStatus.message === "FAILED") {
-  //       dispatch(saveAttendee(newStatus.data));
-  //       toast.error("Payment failed. Try with a different Card", {
-  //         id: "card_pay",
-  //       });
-  //     }
-  //   }
-  // }, [cardStatus]);
+      // console.log("console current status", status);
+    }
+  }, [status]);
 
   useEffect(() => {
     if (pay_status === "PENDING") {
@@ -114,7 +108,9 @@ export default function PayChoice({}) {
   const onSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      const userData = cardStatus ? attendee_details : JSON.parse(user);
+      const userData = status
+        ? { first_name, last_name, summit_id, ticket_id, phone: tel, address }
+        : JSON.parse(user);
       var data = new FormData();
       data.append("last_name", userData.last_name);
       data.append("first_name", userData.first_name);
@@ -209,15 +205,22 @@ export default function PayChoice({}) {
           )}
         </button>
       </div>
-      {/* <Toaster
-        position="bottom-right"
+      {status && status === "400" && (
+        <div className="flex items-center justify-center pt-2">
+          <p className="text-red-500 text-[15px] mb-4 text-center">
+            {/* Card Payment failed. Charge or Change card */}
+          </p>
+        </div>
+      )}
+      <Toaster
+        position="top-right"
         toastOptions={{
           style: {
             background: "var(--accents-7)",
             color: "var(--accents-1)",
           },
         }}
-      /> */}
+      />
     </div>
   );
 }
