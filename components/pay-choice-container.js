@@ -22,7 +22,7 @@ export default function PayChoice({}) {
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const user = searchParams.get("user");
-  const cardStatus = searchParams.get("data");
+  const cardStatus = searchParams.get("req");
 
   const { pay_status, attendee_details } = useSelector(({ auth }) => auth);
   const [buyTicket, { data, isSuccess, isError, error, isLoading }] =
@@ -31,17 +31,32 @@ export default function PayChoice({}) {
   const [pay_method, setPayMethod] = useState(1);
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  useEffect(() => {
-    if (cardStatus) {
-      const newStatus = JSON.parse(newStatus);
-      if (newStatus.message === "FAILED") {
-        dispatch(saveAttendee(newStatus.data));
-        toast.error("Payment failed. Try with a different Card", {
-          id: "card_pay",
-        });
-      }
-    }
-  }, [cardStatus]);
+  const usesUniqueIds = searchParams.get("data[usesUniqueIds]");
+  const increments = searchParams.get("data[incrementing]");
+  const preventsLazyLoading = searchParams.get("data[preventsLazyLoading]");
+  const exists = searchParams.get("data[exists]");
+  const wasRecentlyCreated = searchParams.get("data[wasRecentlyCreated]");
+  const timestamps = searchParams.get("data[timestamps]");
+
+  console.log(usesUniqueIds);
+  console.log(increments);
+  console.log(preventsLazyLoading);
+  console.log(exists);
+  console.log(wasRecentlyCreated);
+  console.log(timestamps);
+
+  // useEffect(() => {
+  //   if (cardStatus) {
+  //     const newStatus = JSON.parse(newStatus);
+
+  //     if (newStatus.message === "FAILED") {
+  //       dispatch(saveAttendee(newStatus.data));
+  //       toast.error("Payment failed. Try with a different Card", {
+  //         id: "card_pay",
+  //       });
+  //     }
+  //   }
+  // }, [cardStatus]);
 
   useEffect(() => {
     if (pay_status === "PENDING") {
