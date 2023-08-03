@@ -16,6 +16,9 @@ const slice = createSlice({
     saveAttendee: (state, { payload }) => {
       state.attendee_details = payload;
     },
+    logout: (state, {}) => {
+      state.token = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
@@ -55,66 +58,6 @@ const slice = createSlice({
   },
 });
 
-const userSlice = apiSlice.injectEndpoints({
-  endpoints: (builder) => ({
-    loginUser: builder.mutation({
-      query: (user) => ({
-        url: "/login",
-        method: "POST",
-        body: user,
-      }),
-      transformResponse: (response) => {
-        return response.data;
-      },
-    }),
-    registerUser: builder.mutation({
-      query: (user) => ({
-        url: "/register",
-        method: "POST",
-        body: user,
-      }),
-      transformResponse: (response) => {
-        return response.data;
-      },
-    }),
-    getUserTickets: builder.query({
-      query: () => ({
-        url: "/list-transactions",
-        method: "GET",
-      }),
-      // providesTags: ["ticket"],
-    }),
-    getPayStatus: builder.query({
-      query: (code) => ({
-        url: `/check/${code}/mtn`,
-        method: "GET",
-      }),
-      transformResponse: (response) => {
-        return response.data;
-      },
-    }),
-    buyTicket: builder.mutation({
-      query: (info) => ({
-        url: "/make-payment",
-        method: "POST",
-        body: info,
-      }),
-      transformResponse: (response) => {
-        return response.data;
-      },
-    }),
-  }),
-});
-
-export const {
-  useLoginUserMutation,
-  useRegisterUserMutation,
-  useLazyGetUserTicketsQuery,
-  useGetUserTicketsQuery,
-  useLazyGetPayStatusQuery,
-  useBuyTicketMutation,
-} = userSlice;
-
-export const { setCredentials, saveAttendee } = slice.actions;
+export const { setCredentials, saveAttendee, logout } = slice.actions;
 
 export default slice.reducer;

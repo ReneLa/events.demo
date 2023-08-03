@@ -23,7 +23,6 @@ export default function PayChoice({}) {
   const searchParams = useSearchParams();
 
   const user = searchParams.get("user");
-  const cardStatus = searchParams.get("req");
   const status = searchParams.get("status");
   const message = searchParams.get("message");
   const summit_id = searchParams.get("summit_id");
@@ -39,6 +38,7 @@ export default function PayChoice({}) {
   const [getPayStatus, statusResult] = useLazyGetPayStatusQuery();
   const [pay_method, setPayMethod] = useState(1);
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [btnStatus, setBtnStatus] = useState("");
 
   useEffect(() => {
     if (status && status === "400") {
@@ -128,6 +128,7 @@ export default function PayChoice({}) {
     [buyTicket, phoneNumber, pay_method]
   );
 
+  const btnDisabled = isLoading || pay_status === "PENDING";
   return (
     <div className="relative flex flex-col w-full">
       <button
@@ -192,17 +193,14 @@ export default function PayChoice({}) {
 
       <div className="flex flex-row items-center justify-evenly mt-10">
         <button
-          disabled={isLoading || statusResult.isLoading}
+          disabled={btnDisabled}
           onClick={onSubmit}
           className={cn(
+            { "pointer-events-none": btnDisabled },
             `w-1/3 h-12  bg-[#702ec2] rounded-md border-2 border-solid border-[#702ec2] cursor-pointer text-base items-center justify-center inline-flex font-medium outline-none tracking-tight transition-colors duration-200 ease-in-out hover:bg-[#19191C]`
           )}
         >
-          {isLoading || statusResult.isLoading ? (
-            <LoadingDots size={4} />
-          ) : (
-            <>Proceed</>
-          )}
+          {btnDisabled ? <LoadingDots size={4} /> : <>Proceed</>}
         </button>
       </div>
       {status && status === "400" && (

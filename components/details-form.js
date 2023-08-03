@@ -35,7 +35,7 @@ export default function DetailsForm() {
   );
 
   const onSubmit = useCallback(
-    async (e) => {
+    (e) => {
       e.preventDefault();
       const user = {
         summit_id: summit.id,
@@ -48,7 +48,6 @@ export default function DetailsForm() {
       router.push(
         "/payment" + "?" + createQueryString("user", JSON.stringify(user))
       );
-      // dispatch(setFormStep(0));
     },
     [f_name, l_name, phone, address]
   );
