@@ -1,15 +1,17 @@
+"use client";
 import cn from "classnames";
 import ConfContainer from "../../components/conf-container";
 import PayChoice from "../../components/pay-choice-container";
 import styleUtils from "../../components/utils.module.css";
 import CloseButton from "../../components/close-button";
+import requireAuth from "../../lib/require-auth";
 
-export const metadata = {
-  title: "Payment",
-  description: "Payment for your event",
-};
+// export const metadata = {
+//   title: "Payment",
+//   description: "Payment for your event",
+// };
 
-export default function PaymentPage() {
+const PaymentPage = () => {
   return (
     <ConfContainer>
       <div className="relative w-full h-full flex flex-col items-center justify-center">
@@ -31,4 +33,6 @@ export default function PaymentPage() {
       </div>
     </ConfContainer>
   );
-}
+};
+
+export default requireAuth(PaymentPage);

@@ -16,15 +16,14 @@ export default function Ticket({ username }) {
   const ticketRef = useRef(null);
   const divRef = useRef(null);
   const searchParams = useSearchParams();
-  const cardStatus = searchParams.get("data");
-
+  const status = searchParams.get("status");
   useEffect(() => {
-    if (JSON.parse(cardStatus) && JSON.parse(cardStatus).data) {
-      toast.success(`${JSON.parse(cardStatus).message}`, {
+    if (status && status === "400") {
+      toast.success(`Payment Successful`, {
         id: "card_success",
       });
     }
-  }, [cardStatus]);
+  }, [status]);
 
   useEffect(() => {
     if (divRef && divRef.current && isMobileOrTablet()) {

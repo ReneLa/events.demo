@@ -5,13 +5,14 @@ import CloseButton from "../../components/close-button";
 import ConfContainer from "../../components/conf-container";
 import Ticket from "../../components/ticket";
 import { useSelector } from "react-redux";
+import requireAuth from "../../lib/require-auth";
 
 // export const metadata = {
 //   title: "Dashboard",
 //   description: "User: your ticket dashboard",
 // };
 
-export default function DashboardPage() {
+const DashboardPage = () => {
   const { token } = useSelector(({ auth }) => auth);
   return (
     <ConfContainer>
@@ -27,11 +28,13 @@ export default function DashboardPage() {
               {`You're`} <br /> Booked.
             </>
           ) : (
-            <>Not ticket</>
+            <>No ticket</>
           )}
         </h1>
       </div>
       <Ticket />
     </ConfContainer>
   );
-}
+};
+
+export default requireAuth(DashboardPage);
