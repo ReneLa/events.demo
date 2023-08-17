@@ -36,7 +36,8 @@ const ticketSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetUserTicketsQuery } = ticketSlice;
+export const { useGetUserTicketsQuery, useLazyGetUserTicketsQuery } =
+  ticketSlice;
 
 export const { saveTicket } = slice.actions;
 

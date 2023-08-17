@@ -5,7 +5,7 @@ const slice = createSlice({
   name: "auth",
   initialState: {
     token: null,
-    ticket: {},
+    // ticket: {},
     pay_status: null,
     attendee_details: null,
   },

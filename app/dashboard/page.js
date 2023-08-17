@@ -6,8 +6,12 @@ import ConfContainer from "../../components/conf-container";
 import Ticket from "../../components/ticket";
 import { useSelector } from "react-redux";
 import requireAuth from "../../lib/require-auth";
-import { useGetUserTicketsQuery } from "../../redux/ticket/ticket.slice";
+import {
+  useGetUserTicketsQuery,
+  useLazyGetUserTicketsQuery,
+} from "../../redux/ticket/ticket.slice";
 import LoadingDots from "../../components/loading-dots";
+import { useEffect } from "react";
 
 // export const metadata = {
 //   title: "Dashboard",
@@ -15,8 +19,13 @@ import LoadingDots from "../../components/loading-dots";
 // };
 
 const DashboardPage = () => {
-  const { isLoading } = useGetUserTicketsQuery();
+  // const { isLoading } = useGetUserTicketsQuery();
+  const [getTickets, { isLoading }] = useLazyGetUserTicketsQuery();
   const { ticket } = useSelector(({ ticket }) => ticket);
+  useEffect(() => {
+    console.log("is re fetching");
+    getTickets();
+  }, []);
 
   return (
     <ConfContainer>
