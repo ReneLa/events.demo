@@ -26,7 +26,7 @@ const reducers = combineReducers({
 });
 
 const persistConfig = {
-  key: "root_v3",
+  key: "root",
   storage,
   whitelist: ["auth"],
   transforms: [tokenTransform],
@@ -35,7 +35,14 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, reducers);
 
 export const store = configureStore({
-  reducer: persistedReducer,
+  // reducer: persistedReducer,
+  reducer: {
+    [apiSlice.reducerPath]: apiSlice.reducer,
+    auth: authReducer,
+    ui: uiReducer,
+    event: eventReducer,
+    ticket: ticketReducer,
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),
   // .concat(logger)

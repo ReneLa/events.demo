@@ -11,6 +11,9 @@ const slice = createSlice({
     saveTicket: (state, { payload }) => {
       state.ticket_type = payload;
     },
+    clearTicket: (state, { payload }) => {
+      state.ticket = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
@@ -31,7 +34,7 @@ const ticketSlice = apiSlice.injectEndpoints({
         url: "/list-transactions",
         method: "GET",
       }),
-      providesTags: ["ticket"],
+      // providesTags: ["ticket"],
     }),
   }),
 });
@@ -39,6 +42,6 @@ const ticketSlice = apiSlice.injectEndpoints({
 export const { useGetUserTicketsQuery, useLazyGetUserTicketsQuery } =
   ticketSlice;
 
-export const { saveTicket } = slice.actions;
+export const { saveTicket,clearTicket } = slice.actions;
 
 export default slice.reducer;

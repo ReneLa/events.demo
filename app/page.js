@@ -9,8 +9,9 @@ import Hero from "../components/hero";
 import MenuButton from "../components/menu-button";
 import TicketTypeGrid from "../components/ticket-types";
 import { useGetEventQuery } from "../redux/event/event.slice";
+import requireAuth from "../lib/require-auth";
 
-export default function Home() {
+ function Home() {
   const { data } = useGetEventQuery();
   const { token } = useSelector(({ auth }) => auth);
   const { formStep } = useSelector(({ ui }) => ui);
@@ -34,3 +35,4 @@ export default function Home() {
   }
   return <div />;
 }
+export default requireAuth(Home)

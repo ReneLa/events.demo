@@ -5,7 +5,6 @@ const slice = createSlice({
   name: "auth",
   initialState: {
     token: null,
-    // ticket: {},
     pay_status: null,
     attendee_details: null,
   },
@@ -64,9 +63,11 @@ const userSlice = apiSlice.injectEndpoints({
         body: user,
       }),
       transformResponse: (response) => {
+         // Save the token to localStorage
+         localStorage.setItem('token', response.data);
         return response.data;
       },
-      invalidatesTags: ["ticket"],
+      invalidatesTags: ["tickets"],
     }),
     registerUser: builder.mutation({
       query: (user) => ({
@@ -77,6 +78,7 @@ const userSlice = apiSlice.injectEndpoints({
       transformResponse: (response) => {
         return response.data;
       },
+      invalidatesTags: ["tickets"],
     }),
     // getUserTickets: builder.query({
     //   query: () => ({
