@@ -12,7 +12,7 @@ import TicketVisual from "./ticket-visual";
 import styles from "./ticket.module.css";
 
 export default function Ticket({ username }) {
-  const { data } = useGetUserTicketsQuery();
+  // const { data } = useGetUserTicketsQuery();
   const ticketRef = useRef(null);
   const divRef = useRef(null);
   const searchParams = useSearchParams();
@@ -31,19 +31,16 @@ export default function Ticket({ username }) {
     }
   }, [divRef]);
 
-  if (data?.data.length > 0) {
-    return (
-      <div className="pt-12 flex flex-col items-center justify-center">
-        <div ref={ticketRef} className={cn(styles["ticket-visual"])}>
-          <TicketVisual username={username} />
-        </div>
-        <div>
-          <div className={styles["ticket-actions"]}>
-            <TicketActions username={username} />
-          </div>
+  return (
+    <div className="pt-12 flex flex-col items-center justify-center">
+      <div ref={ticketRef} className={cn(styles["ticket-visual"])}>
+        <TicketVisual username={username} />
+      </div>
+      <div>
+        <div className={styles["ticket-actions"]}>
+          <TicketActions username={username} />
         </div>
       </div>
-    );
-  }
-  return <div />;
+    </div>
+  );
 }
