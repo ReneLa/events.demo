@@ -13,7 +13,7 @@ import requireAuth from "../../lib/require-auth";
 // };
 
 const DashboardPage = () => {
-  const { token } = useSelector(({ auth }) => auth);
+  const { token, ticket } = useSelector(({ auth }) => auth);
   return (
     <ConfContainer>
       <CloseButton />
@@ -23,16 +23,27 @@ const DashboardPage = () => {
             "text-3xl tracking-tighter font-bold text-center md:text-4xl"
           )}
         >
-          {token ? (
+          {ticket && ticket.payment_status !== "FAILED" && (
             <>
               {`You're`} <br /> Booked.
             </>
-          ) : (
-            <>No ticket</>
           )}
         </h1>
       </div>
-      <Ticket />
+
+      {ticket && ticket.payment_status !== "FAILED" ? (
+        <Ticket />
+      ) : (
+        <div className="flex flex-1 flex-row h-full w-full items-center justify-center">
+          <h1
+            className={cn(
+              "text-3xl tracking-tighter font-bold text-center md:text-4xl"
+            )}
+          >
+            No ticket <br /> purchased
+          </h1>
+        </div>
+      )}
     </ConfContainer>
   );
 };
