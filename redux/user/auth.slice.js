@@ -66,6 +66,7 @@ const userSlice = apiSlice.injectEndpoints({
       transformResponse: (response) => {
         return response.data;
       },
+      invalidatesTags: ["ticket"],
     }),
     registerUser: builder.mutation({
       query: (user) => ({
@@ -82,7 +83,7 @@ const userSlice = apiSlice.injectEndpoints({
         url: "/list-transactions",
         method: "GET",
       }),
-      // providesTags: ["ticket"],
+      providesTags: ["ticket"],
     }),
     getPayStatus: builder.query({
       query: (code) => ({
