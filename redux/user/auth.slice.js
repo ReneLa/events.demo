@@ -34,7 +34,7 @@ const slice = createSlice({
         apiSlice.endpoints.getUserTickets.matchFulfilled,
         (state, { payload }) => {
           if (payload.data.length > 0) {
-            state.ticket = payload.data[0];
+            state.ticket = payload.data[payload.data.length - 1];
           }
         }
       ),
