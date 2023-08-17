@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import isMobileOrTablet from "../lib/is-mobile-or-tablet";
 import { scrollTo } from "../lib/smooth-scroll";
-import { useGetUserTicketsQuery } from "../redux/user/auth.slice";
+// import { useGetUserTicketsQuery } from "../redux/user/auth.slice";
 import TicketActions from "./ticket-actions";
 import TicketVisual from "./ticket-visual";
 import styles from "./ticket.module.css";

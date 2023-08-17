@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import cn from "classnames";
@@ -20,24 +21,28 @@ import { useEffect } from "react";
 
 const DashboardPage = () => {
   // const { isLoading } = useGetUserTicketsQuery();
-  const [getTickets, { isLoading }] = useLazyGetUserTicketsQuery();
+  const { token } = useSelector(({ auth }) => auth);
+  const [getTickets, { data, isLoading }] = useLazyGetUserTicketsQuery();
   const { ticket } = useSelector(({ ticket }) => ticket);
   useEffect(() => {
-    console.log("is re fetching");
-    getTickets();
-  }, []);
+    // console.log("is re fetching");
+    if (token) {
+      getTickets();
+    }
+  }, [token]);
 
   return (
     <ConfContainer>
       <CloseButton />
-      {isLoading ? (
+      {token && isLoading && (
         <div className="flex flex-1 flex-col h-52 w-full mt-12 mb-12 items-center justify-center">
           <p className="text-gray-300 text-[15px] mb-4 text-center">
             Wait, loading...
           </p>
           <LoadingDots />
         </div>
-      ) : (
+      )}
+      {token && data?.data.length > 0 && (
         <>
           <div className="mt-12 mb-12">
             <h1
@@ -53,20 +58,21 @@ const DashboardPage = () => {
             </h1>
           </div>
 
-          {ticket && ticket.payment_status !== "FAILED" ? (
-            <Ticket />
-          ) : (
-            <div className="flex flex-1 flex-row h-full w-full items-center justify-center">
-              <h1
-                className={cn(
-                  "text-3xl tracking-tighter font-bold text-center md:text-4xl"
-                )}
-              >
-                No ticket <br /> purchased
-              </h1>
-            </div>
-          )}
+          {ticket && ticket.payment_status !== "FAILED" && <Ticket />}
         </>
+      )}
+      {token && !isLoading && data?.data.length === 0 && (
+        <div className="mt-12 mb-12">
+          <div className="flex flex-1 flex-row h-full w-full items-center justify-center">
+            <h1
+              className={cn(
+                "text-3xl tracking-tighter font-bold text-center md:text-4xl"
+              )}
+            >
+              No ticket <br /> purchased
+            </h1>
+          </div>
+        </div>
       )}
     </ConfContainer>
   );
