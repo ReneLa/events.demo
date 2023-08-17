@@ -6,7 +6,7 @@ import ConfContainer from "../../components/conf-container";
 import Ticket from "../../components/ticket";
 import { useSelector } from "react-redux";
 import requireAuth from "../../lib/require-auth";
-import { useGetUserTicketsQuery } from "../../redux/user/auth.slice";
+import { useGetUserTicketsQuery } from "../../redux/ticket/ticket.slice";
 import LoadingDots from "../../components/loading-dots";
 
 // export const metadata = {
@@ -16,7 +16,7 @@ import LoadingDots from "../../components/loading-dots";
 
 const DashboardPage = () => {
   const { isLoading } = useGetUserTicketsQuery();
-  const { token, ticket } = useSelector(({ auth }) => auth);
+  const { ticket } = useSelector(({ ticket }) => ticket);
 
   return (
     <ConfContainer>

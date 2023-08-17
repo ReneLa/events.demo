@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export default function TicketVisual({ size = 1, ticketNumber = 453423 }) {
-  const { ticket } = useSelector(({ auth }) => auth);
+  const { ticket } = useSelector(({ ticket }) => ticket);
   const [url, setUrl] = useState("renela");
   const [qr, setQr] = useState("");
 

@@ -9,7 +9,7 @@ import styleUtils from "./utils.module.css";
 import { useSelector } from "react-redux";
 
 export default function TicketActions({ username }) {
-  const { ticket } = useSelector(({ auth }) => auth);
+  const { ticket } = useSelector(({ ticket }) => ticket);
   const [imgReady, setImgReady] = useState(false);
   const [loading, setLoading] = useState(false);
   const downloadLink = useRef();
