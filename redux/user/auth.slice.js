@@ -78,13 +78,13 @@ const userSlice = apiSlice.injectEndpoints({
         return response.data;
       },
     }),
-    getUserTickets: builder.query({
-      query: () => ({
-        url: "/list-transactions",
-        method: "GET",
-      }),
-      providesTags: ["ticket"],
-    }),
+    // getUserTickets: builder.query({
+    //   query: () => ({
+    //     url: "/list-transactions",
+    //     method: "GET",
+    //   }),
+    //   providesTags: ["ticket"],
+    // }),
     getPayStatus: builder.query({
       query: (code) => ({
         url: `/check/${code}/mtn`,
@@ -111,7 +111,7 @@ export const {
   useLoginUserMutation,
   useRegisterUserMutation,
   useLazyGetUserTicketsQuery,
-  useGetUserTicketsQuery,
+  // useGetUserTicketsQuery,
   useLazyGetPayStatusQuery,
   useBuyTicketMutation,
 } = userSlice;

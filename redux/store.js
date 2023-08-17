@@ -26,7 +26,7 @@ const reducers = combineReducers({
 });
 
 const persistConfig = {
-  key: "root",
+  key: "root_v2",
   storage,
   whitelist: ["auth"],
   transforms: [tokenTransform],
